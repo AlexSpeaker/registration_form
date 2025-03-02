@@ -4,7 +4,6 @@ from sqlalchemy.ext.asyncio import (
     async_sessionmaker,
     create_async_engine,
 )
-from sqlalchemy.orm import DeclarativeBase
 
 
 class Database:
@@ -34,9 +33,3 @@ class Database:
         :return: Сессию для работы с БД.
         """
         return self.__async_sessionmaker()
-
-
-class Base(DeclarativeBase):
-    """
-    Базовый класс, от которого наследуются все модели данных.
-    """

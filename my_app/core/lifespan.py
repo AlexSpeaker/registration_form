@@ -3,7 +3,7 @@ from contextlib import asynccontextmanager
 from typing import AsyncGenerator
 
 from core.classes.app import CustomFastApi
-from core.classes.database import Base
+from database.models.base import Base
 
 
 @asynccontextmanager
