@@ -5,7 +5,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 MAX_NAME_LENGTH = 50
 MAX_EMAIL_LENGTH = 100
-MAX_PASSWORD_LENGTH = 128
+MAX_PASSWORD_LENGTH = 512
 
 
 class User(Base):
