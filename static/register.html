@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+        }
+        form {
+            max-width: 300px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .message {
+            margin-top: 20px;
+            color: green;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Регистрация</h1>
+    <form id="registrationForm">
+        <input type="text" id="firstName" placeholder="Имя" required>
+        <input type="text" id="lastName" placeholder="Фамилия" required>
+        <input type="email" id="email" placeholder="Емайл" required>
+        <input type="password" id="password" placeholder="Пароль" required>
+        <input type="password" id="confirmPassword" placeholder="Подтверждение пароля" required>
+        <button type="submit">Зарегистрироваться</button>
+    </form>
+    <div id="message" class="message"></div>
+
+    <script>
+        document.getElementById('registrationForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (password !== confirmPassword) {
+                showMessage('Пароли не совпадают', true);
+                return;
+            }
+
+            const data = {
+                firstName,
+                lastName,
+                email,
+                password
+            };
+
+            try {
+                const response = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (result.result === true) {
+                    showMessage('Регистрация прошла успешно!');
+                } else {
+                    showMessage('Ошибка регистрации', true);
+                }
+            } catch (error) {
+                showMessage('Ошибка при отправке данных', true);
+            }
+        });
+
+        function showMessage(text, isError = false) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = text;
+            messageDiv.className = isError ? 'message error' : 'message';
+        }
+    </script>
+</body>
+</html>
